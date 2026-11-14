@@ -1,0 +1,95 @@
+{
+  "name": "Chromium 156 Cloud Browser in Your Browser",
+  "description": "Full Chromium browser streamed to a tab, with a login and a saved profile.",
+  "category": "Other",
+  "tags": [
+    "chromium",
+    "browser",
+    "cloud-browser",
+    "remote-browser",
+    "selkies",
+    "linux",
+    "web-browser"
+  ],
+  "image": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/chromium.svg",
+  "upstream": {
+    "repo": "linuxserver/docker-chromium",
+    "branch": "master",
+    "version": "7b8e918f-ls63",
+    "image": "lscr.io/linuxserver/chromium:7b8e918f-ls63@sha256:ff1b8235e20367c3b660d31892e14428687df75e2d62e274b7d8d40cf5537108",
+    "chromium": "156.0.8078.79-1~deb13u1",
+    "base": "baseimage-selkies:debiantrixie-794625c6-ls150",
+    "checked": "2026-11-14"
+  },
+  "services": {
+    "Browser": {
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/chromium.svg",
+      "source": {
+        "repo": "baranberkay96/chromium-browser-railway",
+        "rootDirectory": "/services/browser"
+      },
+      "startCommand": null,
+      "preDeployCommand": null,
+      "healthcheckPath": "/healthz",
+      "healthcheckTimeout": 600,
+      "restartPolicyType": "ON_FAILURE",
+      "restartPolicyMaxRetries": 10,
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "publicDomain": true,
+      "targetPort": 3000,
+      "tcpProxy": null,
+      "volume": {
+        "mountPath": "/config"
+      },
+      "variables": {
+        "PASSWORD": {
+          "defaultValue": "${{secret(32)}}",
+          "description": "Browser login password, generated at deploy (copy it from this variable). Min 8 chars, 12+ recommended. Without a valid one the login stays locked.",
+          "required": false
+        },
+        "CUSTOM_USER": {
+          "defaultValue": "chromium",
+          "description": "Browser login name (letters, digits, . _ @ -). Invalid names fall back to 'chromium'.",
+          "required": false
+        },
+        "PORT": {
+          "defaultValue": "3000",
+          "description": "Port of the web server (nginx). The public domain and the healthcheck use it. 3001 and 8082 are used internally.",
+          "required": false
+        },
+        "TZ": {
+          "defaultValue": "Etc/UTC",
+          "description": "Time zone that web pages see, e.g. Europe/Istanbul.",
+          "required": false
+        },
+        "TITLE": {
+          "defaultValue": "Chromium",
+          "description": "Browser tab title of the streaming page.",
+          "required": false
+        },
+        "CHROME_CLI": {
+          "defaultValue": "",
+          "description": "Optional. Start page and/or Chromium flags, space-separated, e.g. 'https://example.com --lang=de'. Applied after a redeploy.",
+          "required": false
+        },
+        "RAILWAY_SHM_SIZE_BYTES": {
+          "defaultValue": "1073741824",
+          "description": "Shared memory (/dev/shm) for Chromium: 1 GiB. Railway's default is 64 MB; below 512 MiB Chromium falls back to /tmp.",
+          "required": false
+        },
+        "APT_PACKAGES": {
+          "defaultValue": "",
+          "description": "Optional. Debian packages (space-separated) reinstalled in the background after every redeploy, e.g. 'fonts-noto-cjk'.",
+          "required": false
+        },
+        "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+          "defaultValue": "15",
+          "description": "Seconds between stop signal and kill on redeploy, so Chromium can save its profile and shut down cleanly.",
+          "required": false
+        }
+      }
+    }
+  },
+  "buckets": []
+}
