@@ -1,6 +1,6 @@
 # Deploy and Host Chromium Cloud Browser with Railway
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/PLACEHOLDER?referralCode=20H68q)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/chromium-156-cloud-browser-in-your-brows?referralCode=20H68q)
 
 A full Chromium web browser that runs on Railway and streams into a tab of your own browser. It opens behind a generated password, and its profile (bookmarks, history, extensions, saved logins, downloads) lives on a persistent volume, so it survives redeploys. Chromium is the open-source browser that Google Chrome and Microsoft Edge are built on.
 
